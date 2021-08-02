@@ -1,21 +1,26 @@
+import React from 'react';
+
 import className from 'classnames';
 
 type IButtonProps = {
+  href?: string;
   xl?: boolean;
   children: string;
 };
 
-const Button = (props: IButtonProps) => {
+const Button = React.forwardRef(({ xl, children, href }: IButtonProps, ref) => {
   const btnClass = className({
     btn: true,
-    'btn-xl': props.xl,
-    'btn-base': !props.xl,
+    'btn-xl': xl,
+    'btn-base': !xl,
     'btn-primary': true,
   });
 
+  const Component = href ? 'a' : 'button';
+
   return (
-    <div className={btnClass}>
-      {props.children}
+    <Component className={btnClass} href={href} ref={ref as any}>
+      {children}
 
       <style jsx>
         {`
@@ -40,8 +45,8 @@ const Button = (props: IButtonProps) => {
           }
         `}
       </style>
-    </div>
+    </Component>
   );
-};
+});
 
 export { Button };
